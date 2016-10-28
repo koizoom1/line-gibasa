@@ -1,6 +1,6 @@
 <?php
 $accessToken = getenv('LINE_CHANNEL_ACCESS_TOKEN');
-
+error_log($accessToken);
 
 //ユーザーからのメッセージ取得
 $json_string = file_get_contents('php://input');
