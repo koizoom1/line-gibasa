@@ -159,6 +159,26 @@ $post_data = [
 	"messages" => [$response_format_text]
 	];
 
+//記述方法変更
+$header = array(
+    "Content-Type: application/json",
+    'Authorization: Bearer ' . $accessToken,
+);
+
+$context = stream_context_create(array(
+    "http" => array(
+        "method" => "POST",
+        "header" => implode("\r\n", $header),
+        "content" => json_encode($post_data),
+    ),
+));
+
+$response = file_get_contents('https://api.line.me/v2/bot/message/reply', false, $context);
+if (strpos($http_response_header[0], '200') === false) {
+    http_response_code(500);
+    error_log("Request failed: " . $response);
+}
+/*
 $ch = curl_init("https://api.line.me/v2/bot/message/reply");
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
@@ -170,3 +190,4 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, array(
     ));
 $result = curl_exec($ch);
 curl_close($ch);
+*/
